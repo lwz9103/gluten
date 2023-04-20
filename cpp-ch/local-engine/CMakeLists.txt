@@ -1,5 +1,6 @@
 set(THRIFT_INCLUDE_DIR "${ClickHouse_SOURCE_DIR}/contrib/thrift/lib/cpp/src")
 
+
 # Find java/jni
 include(FindJava)
 include(UseJava)
