@@ -4,6 +4,7 @@ set(CH_ORG Kyligence CACHE STRING "ClickHouse org")
 set(CH_BRANCH clickhouse_backend CACHE STRING "ClickHouse branch name")
 set(CH_COMMIT 52be833f CACHE STRING "ClickHouse commit")
 
+
 project(libch LANGUAGES C CXX ASM)
 file(GLOB clickhouse_files "${CH_SOURCE_DIR}/*")
 if ("${CH_SOURCE_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}/ClickHouse")
