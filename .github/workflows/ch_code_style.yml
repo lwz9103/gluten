@@ -41,4 +41,4 @@ jobs:
           clang-format-version: '15'
           check-path: ${{ matrix.path['check'] }}
           fallback-style: 'Google' # optional
-          include-regex: '.*\.\(c\|cpp\|h\)'
+          include-regex: '.*\.\(c\|\cc|cpp\|h\)'
