@@ -28,19 +28,14 @@ on:
       - 'tools/gluten-it/**'
       - 'tools/gluten-te/**'
       - 'cpp-ch/**'
-  workflow_run:
-    workflows: ["Dev PR"]
-    branches: [main]
-    types:
-      - completed
-
 jobs:
   add-comment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+      - name: Sleep for Dev PR workflow done
+        run: sleep 5
       - name: Add comment to PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
