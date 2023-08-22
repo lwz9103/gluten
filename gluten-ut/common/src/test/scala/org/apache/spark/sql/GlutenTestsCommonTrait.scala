@@ -18,18 +18,21 @@ package org.apache.spark.sql
 
 import io.glutenproject.test.TestStats
 
-import org.apache.spark.SparkFunSuite
 import org.apache.spark.sql.catalyst.expressions._
 
 import org.scalactic.source.Position
 import org.scalatest.{Args, Status, Tag}
 
-trait GlutenTestsCommonTrait
-  extends SparkFunSuite
-  with ExpressionEvalHelper
-  with GlutenTestsBaseTrait {
+trait GlutenTestsCommonTrait extends GlutenTestsBaseTrait with ExpressionEvalHelper {
 
-  override def runTest(testName: String, args: Args): Status = {
+  override protected def test(testName: String, testTags: Tag*)(testFun: => Any)(implicit
+      pos: Position): Unit = {
+    if (shouldRun(testName)) {
+      super.test(testName, testTags: _*)(testFun)
+    }
+  }
+
+  override protected def runTest(testName: String, args: Args): Status = {
     TestStats.suiteTestNumber += 1
     TestStats.offloadGluten = true
     TestStats.startCase(testName)
@@ -48,10 +51,4 @@ trait GlutenTestsCommonTrait
     status
   }
 
-  override protected def test(testName: String, testTags: Tag*)(testFun: => Any)(implicit
-      pos: Position): Unit = {
-    if (shouldRun(testName)) {
-      super.test(testName, testTags: _*)(testFun)
-    }
-  }
 }

@@ -16,9 +16,15 @@
  */
 package org.apache.spark.sql
 
+import io.glutenproject.test.TestStats
 import io.glutenproject.utils.BackendTestSettings
 
-trait GlutenTestsBaseTrait {
+import org.apache.spark.SparkFunSuite
+
+import org.scalactic.source.Position
+import org.scalatest.{Args, Status, Tag}
+
+trait GlutenTestsBaseTrait extends SparkFunSuite {
 
   protected val rootPath: String = getClass.getResource("/").getPath
   protected val basePath: String = rootPath + "unit-tests-working-home"
@@ -30,6 +36,15 @@ trait GlutenTestsBaseTrait {
   // list will never be run with no regard to backend test settings.
   def testNameBlackList: Seq[String] = Seq()
 
+  def disableFallback: Boolean = true
+
+  def withFallbackCheck(testFun: => Any): Any = {
+    testFun
+    if (disableFallback && !TestStats.offloadGluten) {
+      assert(false, "Fallback Disabled")
+    }
+  }
+
   def shouldRun(testName: String): Boolean = {
     if (testNameBlackList.exists(_.equalsIgnoreCase(GlutenTestConstants.IGNORE_ALL))) {
       return false
@@ -38,5 +53,31 @@ trait GlutenTestsBaseTrait {
       return false
     }
     BackendTestSettings.shouldRun(getClass.getCanonicalName, testName)
+  }
+
+  override protected def test(testName: String, testTags: Tag*)(testFun: => Any)(implicit
+      pos: Position): Unit = {
+    if (shouldRun(testName)) {
+      super.test(testName, testTags: _*)(withFallbackCheck(testFun))
+    }
+  }
+
+  override protected def runTest(testName: String, args: Args): Status = {
+    TestStats.suiteTestNumber += 1
+    TestStats.offloadGluten = true
+    TestStats.startCase(testName)
+    val status = super.runTest(testName, args)
+    if (TestStats.offloadGluten) {
+      TestStats.offloadGlutenTestNumber += 1
+      print("'" + testName + "'" + " offload to gluten\n")
+    } else {
+      // you can find the keyword 'Validation failed for' in function doValidate() in log
+      // to get the fallback reason
+      print("'" + testName + "'" + " NOT use gluten\n")
+      TestStats.addFallBackCase()
+    }
+
+    TestStats.endCase(status.succeeds());
+    status
   }
 }
