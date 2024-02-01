@@ -44,4 +44,9 @@ REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(PercentRank, percent_rank, percent_ran
 REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(Rank, rank, rank)
 REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(RowNumber, row_number, row_number)
 REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(CountDistinct, count_distinct, uniqExact)
+
+REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(KeBitmapOrCardinality, ke_bitmap_or_cardinality, ke_bitmap_or_cardinality)
+REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(KeBitmapOrData, ke_bitmap_or_data, ke_bitmap_or_data)
+REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(KeBitmapAndValue, ke_bitmap_and_value, ke_bitmap_and_value)
+REGISTER_COMMON_AGGREGATE_FUNCTION_PARSER(KeBitmapAndIds, ke_bitmap_and_ids, ke_bitmap_and_ids)
 }

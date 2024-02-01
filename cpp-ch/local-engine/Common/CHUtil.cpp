@@ -22,6 +22,7 @@
 #include <optional>
 #include <unistd.h>
 #include <AggregateFunctions/Combinators/AggregateFunctionCombinatorFactory.h>
+#include <AggregateFunctions/KeAggregateBitmapFunctions.h>
 #include <AggregateFunctions/registerAggregateFunctions.h>
 #include <Columns/ColumnArray.h>
 #include <Columns/ColumnConst.h>
@@ -887,6 +888,11 @@ void registerAllFunctions()
     auto & agg_factory = AggregateFunctionFactory::instance();
     registerAggregateFunctionsBloomFilter(agg_factory);
     registerAggregateFunctionSparkAvg(agg_factory);
+    {
+        auto & factory = AggregateFunctionFactory::instance();
+        registerKeAggregateFunctionsBitmap(factory);
+    }
+
     {
         /// register aggregate function combinators from local_engine
         auto & factory = AggregateFunctionCombinatorFactory::instance();
