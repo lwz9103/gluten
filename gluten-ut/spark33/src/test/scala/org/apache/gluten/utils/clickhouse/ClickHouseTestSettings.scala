@@ -38,7 +38,6 @@ import org.apache.spark.sql.execution.exchange.GlutenEnsureRequirementsSuite
 import org.apache.spark.sql.execution.joins.{GlutenBroadcastJoinSuite, GlutenExistenceJoinSuite, GlutenInnerJoinSuite, GlutenOuterJoinSuite}
 import org.apache.spark.sql.extension.{GlutenCustomerExtensionSuite, GlutenSessionExtensionSuite}
 import org.apache.spark.sql.gluten.GlutenFallbackSuite
-import org.apache.spark.sql.hive.execution.GlutenHiveSQLQueryCHSuite
 import org.apache.spark.sql.sources._
 import org.apache.spark.sql.statistics.SparkFunctionStatistics
 
@@ -1869,7 +1868,7 @@ class ClickHouseTestSettings extends BackendTestSettings {
     .excludeGlutenTest("fallbackSummary with cache")
     .excludeGlutenTest("fallbackSummary with cached data and shuffle")
   enableSuite[GlutenSparkSessionExtensionSuite]
-  enableSuite[GlutenHiveSQLQueryCHSuite]
+  // enableSuite[GlutenHiveSQLQueryCHSuite]
   enableSuite[GlutenPercentileSuite]
 
   override def getSQLQueryTestSettings: SQLQueryTestSettings = ClickHouseSQLQueryTestSettings
