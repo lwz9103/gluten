@@ -19,7 +19,11 @@ package org.apache.gluten.utils.clickhouse
 import org.apache.gluten.utils.SQLQueryTestSettings
 
 object ClickHouseSQLQueryTestSettings extends SQLQueryTestSettings {
-  override def getSupportedSQLQueryTests: Set[String] = Set()
+  override def getSupportedSQLQueryTests: Set[String] = SUPPORTED_SQL_QUERY_LIST
 
   override def getOverwriteSQLQueryTests: Set[String] = Set()
+
+  val SUPPORTED_SQL_QUERY_LIST: Set[String] = Set(
+    "subquery/in-subquery/in-limit.sql"
+  )
 }

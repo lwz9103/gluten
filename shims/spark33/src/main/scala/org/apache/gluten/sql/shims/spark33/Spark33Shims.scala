@@ -38,7 +38,7 @@ import org.apache.spark.sql.catalyst.util.RebaseDateTime.RebaseSpec
 import org.apache.spark.sql.catalyst.util.TimestampFormatter
 import org.apache.spark.sql.connector.catalog.Table
 import org.apache.spark.sql.connector.expressions.Transform
-import org.apache.spark.sql.execution.{FileSourceScanExec, PartitionedFileUtil, SparkPlan}
+import org.apache.spark.sql.execution.{FileSourceScanExec, GlobalLimitExec, PartitionedFileUtil, SparkPlan, TakeOrderedAndProjectExec}
 import org.apache.spark.sql.execution.datasources._
 import org.apache.spark.sql.execution.datasources.FileFormatWriter.Empty2Null
 import org.apache.spark.sql.execution.datasources.parquet.ParquetFilters
@@ -235,6 +235,24 @@ class Spark33Shims extends SparkShims {
     metadataColumn.put(InputFileBlockStart().prettyName, file.start.toString)
     metadataColumn.put(InputFileBlockLength().prettyName, file.length.toString)
     metadataColumn
+  }
+
+  private def getLimit(limit: Int, offset: Int): Int = {
+    if (limit == -1) {
+      // Only offset specified, so fetch the maximum number rows
+      Int.MaxValue
+    } else {
+      assert(limit > offset)
+      limit - offset
+    }
+  }
+
+  override def getLimitAndOffsetFromGlobalLimit(plan: GlobalLimitExec): (Int, Int) = {
+    (getLimit(plan.limit, plan.offset), plan.offset)
+  }
+
+  override def getLimitAndOffsetFromTopK(plan: TakeOrderedAndProjectExec): (Int, Int) = {
+    (getLimit(plan.limit, plan.offset), plan.offset)
   }
 
   override def getExtendedColumnarPostRules(): List[SparkSession => Rule[SparkPlan]] = {
