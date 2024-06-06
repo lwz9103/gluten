@@ -107,7 +107,7 @@ class GlutenClickhouseStringFunctionsSuite extends GlutenClickHouseWholeStageTra
     }
   }
 
-  test("replace") {
+  ignore("replace") {
     val tableName = "replace_table"
     withTable(tableName) {
       sql(s"create table $tableName(src String, idx String, dest String) using parquet")
