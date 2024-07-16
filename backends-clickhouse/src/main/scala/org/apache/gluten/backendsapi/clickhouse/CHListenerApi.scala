@@ -22,6 +22,7 @@ import org.apache.gluten.execution.CHBroadcastBuildSideCache
 import org.apache.gluten.execution.datasource.{GlutenOrcWriterInjects, GlutenParquetWriterInjects, GlutenRowSplitter}
 import org.apache.gluten.expression.UDFMappings
 import org.apache.gluten.extension.ExpressionExtensionTrait
+import org.apache.gluten.kerberos.KerberosTicketRefreshAssist
 import org.apache.gluten.vectorized.{CHNativeExpressionEvaluator, JniLibLoader}
 
 import org.apache.spark.{SparkConf, SparkContext}
@@ -56,6 +57,7 @@ class CHListenerApi extends ListenerApi with Logging {
   override def onDriverShutdown(): Unit = shutdown()
 
   override def onExecutorStart(pc: PluginContext): Unit = {
+    KerberosTicketRefreshAssist.initKerberosIfNeeded(pc.conf)
     GlutenExecutorEndpoint.executorEndpoint = new GlutenExecutorEndpoint(pc.executorID, pc.conf)
     if (pc.conf().get("spark.master").startsWith("local")) {
       logDebug("Skipping duplicate initializing clickhouse backend on spark local mode")
@@ -117,6 +119,7 @@ class CHListenerApi extends ListenerApi with Logging {
   }
 
   private def shutdown(): Unit = {
+    KerberosTicketRefreshAssist.shutdownIfNeeded()
     CHBroadcastBuildSideCache.cleanAll()
     CHNativeExpressionEvaluator.finalizeNative()
   }
