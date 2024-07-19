@@ -17,8 +17,9 @@
 #pragma once
 
 #include <AggregateFunctions/AggregateFunctionFactory.h>
-#include <AggregateFunctions/IAggregateFunction.h>
 #include <AggregateFunctions/Combinators/AggregateFunctionNull.h>
+#include <AggregateFunctions/IAggregateFunction.h>
+#include <AggregateFunctions/KeAggregateBitmapData.h>
 #include <Columns/ColumnAggregateFunction.h>
 #include <Columns/ColumnString.h>
 #include <Columns/ColumnVector.h>
@@ -26,8 +27,12 @@
 #include <DataTypes/DataTypeString.h>
 #include <DataTypes/DataTypesNumber.h>
 #include <Storages/ReadBufferFromJavaBitmap.h>
-#include <AggregateFunctions/KeAggregateBitmapData.h>
 #include <Common/assert_cast.h>
+
+namespace DB::ErrorCodes
+{
+extern const int BAD_ARGUMENTS;
+}
 
 namespace local_engine
 {
