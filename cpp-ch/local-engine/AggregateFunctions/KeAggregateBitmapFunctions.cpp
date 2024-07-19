@@ -114,9 +114,9 @@ AggregateFunctionPtr createKeAggregateBitmapAndIdsFunction(
 void registerKeAggregateFunctionsBitmap(AggregateFunctionFactory & factory)
 {
     AggregateFunctionProperties properties = { .returns_default_when_only_null = true };
-    factory.registerFunction("ke_bitmap_or_cardinality", {createKeAggregateBitmapOrCardinalityFunction, properties}, AggregateFunctionFactory::CaseInsensitive);
-    factory.registerFunction("ke_bitmap_or_data", {createKeAggregateBitmapOrDataFunction, properties}, AggregateFunctionFactory::CaseInsensitive);
-    factory.registerFunction("ke_bitmap_and_value", { createKeAggregateBitmapAndValueFunction, properties}, AggregateFunctionFactory::CaseInsensitive);
-    factory.registerFunction("ke_bitmap_and_ids", {createKeAggregateBitmapAndIdsFunction, properties}, AggregateFunctionFactory::CaseInsensitive);
+    factory.registerFunction("ke_bitmap_or_cardinality", {createKeAggregateBitmapOrCardinalityFunction, properties}, AggregateFunctionFactory::Case::Insensitive);
+    factory.registerFunction("ke_bitmap_or_data", {createKeAggregateBitmapOrDataFunction, properties}, AggregateFunctionFactory::Case::Insensitive);
+    factory.registerFunction("ke_bitmap_and_value", { createKeAggregateBitmapAndValueFunction, properties}, AggregateFunctionFactory::Case::Insensitive);
+    factory.registerFunction("ke_bitmap_and_ids", {createKeAggregateBitmapAndIdsFunction, properties}, AggregateFunctionFactory::Case::Insensitive);
 }
 }
