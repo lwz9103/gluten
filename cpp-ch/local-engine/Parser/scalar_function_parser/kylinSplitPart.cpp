@@ -40,7 +40,7 @@ public:
 
    const ActionsDAG::Node * parse(
        const substrait::Expression_ScalarFunction & substrait_func,
-       ActionsDAGPtr & actions_dag) const override
+       ActionsDAG & actions_dag) const override
    {
        /*
             parse kylin_split_part(str, rex, idx) as
