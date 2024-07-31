@@ -95,7 +95,7 @@ public:
     const ActionsDAG::Node * parseLiteralFunction(
         const substrait::Expression_ScalarFunction & substrait_func,
         const ActionsDAG::NodeRawConstPtrs & parsed_args,
-        ActionsDAGPtr & actions_dag,
+        ActionsDAG & actions_dag,
         const String & timezone) const
     {
         const auto & unit_field = substrait_func.arguments().at(0);
@@ -130,7 +130,7 @@ public:
     const ActionsDAG::Node * parseOtherFunction(
         const substrait::Expression_ScalarFunction & substrait_func,
         const ActionsDAG::NodeRawConstPtrs & parsed_args,
-        ActionsDAGPtr & actions_dag,
+        ActionsDAG & actions_dag,
         const String & timezone) const
     {
         const DB::ActionsDAG::Node * timezone_node;
