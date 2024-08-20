@@ -58,10 +58,10 @@
     <scala.binary.version>2.12</scala.binary.version>
     <scala.version>2.12.15</scala.version>
     <spark.major.version>3</spark.major.version>
-    <sparkbundle.version>3.4</sparkbundle.version>
-    <spark.version>3.4.2</spark.version>
-    <sparkshim.module.name>spark34</sparkshim.module.name>
-    <sparkshim.artifactId>spark-sql-columnar-shims-spark34</sparkshim.artifactId>
+    <sparkbundle.version>3.3</sparkbundle.version>
+    <spark.version>3.3.0-kylin-4.6.27.0-SNAPSHOT</spark.version>
+    <sparkshim.module.name>spark33</sparkshim.module.name>
+    <sparkshim.artifactId>spark-sql-columnar-shims-kyspark</sparkshim.artifactId>
     <iceberg.version>1.5.0</iceberg.version>
     <delta.package.name>delta-core</delta.package.name>
     <delta.version>2.4.0</delta.version>
