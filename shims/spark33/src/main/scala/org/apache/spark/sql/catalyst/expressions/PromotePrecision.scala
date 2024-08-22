@@ -14,10 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.connector
+package org.apache.spark.sql.catalyst.expressions
 
-import org.apache.spark.sql.GlutenSQLTestsBaseTrait
+import org.apache.spark.sql.catalyst.InternalRow
+import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
+import org.apache.spark.sql.types._
 
-// Make scala compiler happy, kyspark misses this class.
-class MetadataColumnSuite extends DatasourceV2SQLBase {}
-class GlutenMetadataColumnSuite extends MetadataColumnSuite with GlutenSQLTestsBaseTrait {}
+case class PromotePrecision(child: Expression) extends UnaryExpression {
+  override def dataType: DataType = child.dataType
+  override def eval(input: InternalRow): Any = child.eval(input)
+  override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode =
+    child.genCode(ctx)
+  override def prettyName: String = "promote_precision"
+  override def sql: String = child.sql
+  override lazy val canonicalized: Expression = child.canonicalized
+
+  override protected def withNewChildInternal(newChild: Expression): Expression =
+    copy(child = newChild)
+}
