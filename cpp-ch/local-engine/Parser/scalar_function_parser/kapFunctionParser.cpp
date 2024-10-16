@@ -23,7 +23,7 @@ namespace local_engine
    class KapFunctionParser##cls_name : public FunctionParser \
    { \
    public: \
-       KapFunctionParser##cls_name(SerializedPlanParser * plan_parser_) : FunctionParser(plan_parser_) \
+       KapFunctionParser##cls_name(ParserContextPtr parser_context_) : FunctionParser(parser_context_) \
        { \
        } \
        ~KapFunctionParser##cls_name() override = default; \

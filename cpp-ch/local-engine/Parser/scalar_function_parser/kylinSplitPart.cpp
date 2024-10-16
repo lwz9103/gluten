@@ -31,7 +31,7 @@ namespace local_engine
 class FunctionParserKylinSplitPart : public FunctionParser
 {
 public:
-   explicit FunctionParserKylinSplitPart(SerializedPlanParser * plan_parser_) : FunctionParser(plan_parser_) {}
+   explicit FunctionParserKylinSplitPart(ParserContextPtr parser_context_) : FunctionParser(parser_context_) {}
    ~FunctionParserKylinSplitPart() override = default;
 
    static constexpr auto name = "kylin_split_part";
