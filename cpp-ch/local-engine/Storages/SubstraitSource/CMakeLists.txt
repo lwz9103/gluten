@@ -28,9 +28,16 @@ target_compile_options(
   substrait_source PRIVATE -Wno-suggest-destructor-override
                            -Wno-inconsistent-missing-destructor-override)
 
-target_link_libraries(
-  substrait_source PUBLIC boost::headers_only ch_contrib::protobuf
-                          clickhouse_common_io ch_contrib::hdfs substrait)
+
+if(ENABLE_HDFS)
+  target_link_libraries(
+          substrait_source PUBLIC boost::headers_only ch_contrib::protobuf
+          clickhouse_common_io ch_contrib::hdfs substrait)
+else()
+  target_link_libraries(
+          substrait_source PUBLIC boost::headers_only ch_contrib::protobuf
+          clickhouse_common_io substrait)
+endif()
 
 target_include_directories(
   substrait_source SYSTEM BEFORE
